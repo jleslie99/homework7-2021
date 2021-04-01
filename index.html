@@ -9,11 +9,11 @@
 <main>
 	<h1>JavaScript Video Controls</h1>
 	<div class = "options">
-		<button  id = "play">Play Video</button>
-		<button  id = "pause">Pause Video</button>
-		<button  id = "slower">Slow Down</button>
-		<button  id = "faster">Speed Up</button>
-		<button  id = "skip">Skip Ahead</button>
+		<button  id = "play" onclick = "play()">Play Video</button>
+		<button  id = "pause" onclick = "pause()">Pause Video</button>
+		<button  id = "slower" onclick = "slower()">Slow Down</button>
+		<button  id = "faster" onclick = "faster()">Speed Up</button>
+		<button  id = "skip" onclick = "skip()">Skip Ahead</button>
 	</div>
 
 	<figure>
@@ -31,16 +31,74 @@
 		</video>
 		<figcaption>[The sound of the Michigan Marching Band]</figcaption>
 		</figure> 
-	<button id="mute">Mute</button><br>
+	<button id="mute" onclick = "mute()">Mute</button><br>
 
-	<label for="slider">Volume</label>: 0 <input type="range" id="slider" min="0" max="100" value="100" step="10"> 100%<br>
+	<label for="slider">Volume</label>: 0 <input type="range" id="slider" min="0" max="100" value="100" step="10" oninput = "set_vol()"> 100%<br>
 	<div>Volume is: <span id = "volume"> </span><br><br></div>
 
-	<button id = "vintage">Old School</button>
-	<button id = "orig">Original</button>
+	<button id = "vintage" onclick = "old_school()">Old School</button>
+	<button id = "orig" onclick = "original()">Original</button>
 
 	<p>Video courtesy of Allison Sweet.</p>
 
 </main>
+<script>
+	var vid = document.getElementById("player1");
+	var vol = document.querySelector("#volume")
+	var mute_button = document.querySelector("#mute")
+	var vol_slider = document.querySelector("#slider")
+	function play(){
+		console.log("Play Button");
+		vid.play();
+		var adj_vol = vid.volume * 100
+		vol.innerHTML = adj_vol+ "%";
+	}
+	function pause(){
+		console.log("Pause Button");
+		vid.pause();
+	}
+	function slower(){
+		console.log("Slow Down Button");
+		vid.playbackRate -= .05;
+		console.log(vid.playbackRate);
+	}
+	function faster(){
+		console.log("Speed Up Button");
+		vid.playbackRate += .05;
+		console.log(vid.playbackRate);
+	}
+	function skip(){
+		console.log("Skip Button");
+		if (vid.currentTime + 5 > vid.duration){
+			vid.currentTime = 0;
+		}else{
+			vid.currentTime += 15;
+		}
+		console.log(vid.currentTime)
+	}
+	function mute(){
+		console.log("Mute Button");
+		vid.muted = !vid.muted;
+		if (vid.muted){
+			mute_button.innerHTML = "Unmute"
+		}else{
+			mute_button.innerHTML = "Mute"
+		}
+		
+	}
+	function set_vol(){
+		vid.volume = vol_slider.value/100;
+		var adj_vol = vid.volume * 100;
+		vol.innerHTML = adj_vol+ "%";
+	}
+	function old_school(){
+		console.log("Old School Button");
+		vid.className = "oldSchool";
+	}
+	function original(){
+		console.log("Original Button");
+		vid.className = "video";
+	}
+</script>
 </body> 
 </html>
